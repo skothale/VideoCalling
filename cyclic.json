@@ -1,0 +1,9 @@
+{
+  "name": "video-calling-backend",
+  "buildCommand": "./build.sh",
+  "startCommand": "./start.sh",
+  "env": {
+    "JAVA_VERSION": "17",
+    "PORT": "8080"
+  }
+} 
