@@ -1,0 +1,12 @@
+{
+  "name": "video-calling-backend",
+  "version": "1.0.0",
+  "description": "Video Calling Backend - Spring Boot Application",
+  "engines": {
+    "java": "17"
+  },
+  "scripts": {
+    "build": "./build.sh",
+    "start": "./start.sh"
+  }
+} 
