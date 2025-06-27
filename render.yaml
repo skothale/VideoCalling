@@ -2,8 +2,11 @@ services:
   - type: web
     name: video-calling-backend
     env: java
+    plan: free
     buildCommand: ./build.sh
     startCommand: ./start.sh
     envVars:
       - key: JAVA_VERSION
-        value: 17 
+        value: 17
+      - key: JAVA_HOME
+        value: /usr/lib/jvm/java-17-openjdk-amd64 
