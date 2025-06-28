@@ -1,28 +1,39 @@
-# Use OpenJDK 17 as base image
-FROM openjdk:17-jdk-slim
+# Multi-stage build for Spring Boot backend
+FROM maven:3.9.6-openjdk-17 AS build
 
 # Set working directory
 WORKDIR /app
 
-# Copy Maven wrapper and pom.xml
-COPY mvnw .
-COPY .mvn .mvn
+# Copy pom.xml and download dependencies
 COPY pom.xml .
-
-# Make Maven wrapper executable
-RUN chmod +x mvnw
-
-# Download dependencies (this layer will be cached if pom.xml doesn't change)
-RUN ./mvnw dependency:go-offline -B
+RUN mvn dependency:go-offline -B
 
 # Copy source code
-COPY src src
+COPY src ./src
 
 # Build the application
-RUN ./mvnw clean package -DskipTests
+RUN mvn clean package -DskipTests
+
+# Runtime stage
+FROM openjdk:17-jre-slim
+
+# Create app user
+RUN addgroup --system app && adduser --system --ingroup app app
+
+# Set working directory
+WORKDIR /app
+
+# Copy the built jar from build stage
+COPY --from=build /app/target/*.jar app.jar
+
+# Create logs directory
+RUN mkdir -p /app/logs && chown -R app:app /app
+
+# Switch to app user
+USER app
 
 # Expose port
 EXPOSE 8080
 
 # Run the application
-CMD ["java", "-jar", "target/*.jar"] 
+ENTRYPOINT ["java", "-jar", "app.jar"] 
