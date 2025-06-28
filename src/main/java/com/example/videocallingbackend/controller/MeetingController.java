@@ -19,7 +19,8 @@ import java.util.Map;
     "http://127.0.0.1:3000",
     "https://video-calling-frontend-black.vercel.app",
     "https://video-calling-frontend.vercel.app",
-    "https://*.vercel.app"
+    "https://*.vercel.app",
+    "https://vercel.app"
 })
 public class MeetingController {
     @Autowired
