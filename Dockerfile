@@ -1,5 +1,5 @@
 # Multi-stage build for Spring Boot backend
-FROM maven:3.9.6-openjdk-17 AS build
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 
 # Set working directory
 WORKDIR /app
@@ -15,7 +15,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Runtime stage
-FROM openjdk:17-jre-slim
+FROM eclipse-temurin:17-jre-jammy
 
 # Create app user
 RUN addgroup --system app && adduser --system --ingroup app app
